@@ -2,7 +2,7 @@ name: E2E Tests
 on:
   pull_request:
     branches:
-      - main
+      - master
     types: [opened, reopened, labeled, unlabeled, synchronize]
 jobs:
   run-ci:
@@ -24,15 +24,11 @@ jobs:
           --health-retries 5
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          version: 9
-          run_install: false
+
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm run test
+          cache: "npm"
+      - run: npm ci
+      - run: npm run test
